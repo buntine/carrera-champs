@@ -15,5 +15,17 @@ import sys
 
 from carreralib import ControlUnit
 
+class Player:
+    def __init__(self):
+        self.laps = 0
+
 cu = ControlUnit(sys.argv[1])
 laps = sys.argv[2] if sys.argv.length > 2 else 6
+
+players = []
+
+cu.start()
+
+# Start looping.
+  # On Timer - add player and increment laps.
+  # If player.laps >= laps, end.
