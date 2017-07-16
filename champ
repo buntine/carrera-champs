@@ -12,6 +12,7 @@
 ##   Example: ./champs ab:12:cd:34:ef:45 10
 
 import curses
+import time
 
 from optparse import OptionParser
 
@@ -29,7 +30,14 @@ class Race:
         self.players = list(map(lambda n: Player(n), players))
 
     def start(self, speed, brakes):
-        pass
+        for n in range(0, 2):
+            self.cu.setbrake(n, brakes)
+            self.cu.setspeed(n, speed)
+
+        # Carrera CU ignores calls to start without minor delay.
+        self.cu.start() # Initiate.
+        time.sleep(2)
+        self.cu.start() # Start.
 
     def run(self):
         pass
@@ -42,12 +50,12 @@ op.add_option("-c", "--control-unit", action="store",
 op.add_option("-l", "--laps", action="store",
               type="int", dest="laps",
               default=6, help="Number of laps to race for")
-op.add_option("-b", "--brakes", action="store_true",
-              default=False, dest="brakes",
-              help="Enable automatic braking")
+op.add_option("-b", "--brakes", action="store",
+              type="int", default=8, dest="brakes",
+              help="Automatic braking sensitivity (1..15)")
 op.add_option("-s", "--speed", action="store",
               type="int", dest="speed", default=8,
-              help="Top speed (1..10)")
+              help="Top speed (1..15)")
 op.add_option("-p", "--player", dest="players",
               type="string", action="append",
               help="The name of a player")
