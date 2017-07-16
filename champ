@@ -45,7 +45,7 @@ class Race:
                 player = self.players[data.address]
                 player.laps += 1
 
-                if player.laps >= self.laps:
+                if player.laps > self.laps:
                     self.__finish_race()
 
     def __start_sequence(self):
