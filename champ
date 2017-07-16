@@ -2,20 +2,20 @@
 
 ## CARRERA CHAMPS
 ##
-##   A script to start a race for LAPS laps on a Carrera Digital 132/124
+##   A script to start a race for a given number of laps on a Carrera Digital 132/124
 ##   slot car set.
 ##
-##   You must supply the mac address of your Control Unit and the number
-##   laps you want to race for (default=6)
+##   NOTE: This is intended as a simple prototype and therefore does not handle edge-cases
+##         or user error.
 ##
-##   Usage: ./champs CU_MAC_ADDRESS LAPS PLAYERS
-##   Example: ./champs ab:12:cd:34:ef:45 10
+##   You must supply the mac address of your Control Unit.
+##
+##   Example: ./champ -c D9:A4:83:22:C6:9B -b 5 -s 7 -l 3 -p Andrew -p Barry
 
 import curses
 import time
 
 from optparse import OptionParser
-
 from carreralib import ControlUnit
 
 class Player:
