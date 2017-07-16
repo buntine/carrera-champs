@@ -61,6 +61,8 @@ class Race:
     def __finish_race(self):
         self.racing = False
         self.cu.start()
+        self.cu.reset()
+        self.cu.close()
         self.__summarize()
 
     def __render(self):
