@@ -30,17 +30,33 @@ class Race:
         self.players = list(map(lambda n: Player(n), players))
 
     def start(self, speed, brakes):
-        for n in range(0, 2):
+        for n in range(0, 4):
             self.cu.setbrake(n, brakes)
             self.cu.setspeed(n, speed)
 
-        # Carrera CU ignores calls to start without minor delay.
+        self.racing = True
+        self.__start_sequence()
+        
+    def run(self):
+        while self.racing:
+            data = self.cu.request()
+
+            if isinstance(data, ControlUnit.Timer):
+                player = self.players[data.address]
+                player.laps += 1
+
+                if player.laps >= self.laps:
+                    self.__finish_race()
+
+    def __start_sequence(self):
+        self.cu.reset()
         self.cu.start() # Initiate.
         time.sleep(2)
-        self.cu.start() # Start.
+        self.cu.start() # Start countdown.
 
-    def run(self):
-        pass
+    def __finish_race(self):
+        self.racing = False
+        self.cu.start()
 
 op = OptionParser()
 
