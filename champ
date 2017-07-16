@@ -81,17 +81,19 @@ op.add_option("-p", "--player", dest="players",
 if not options.cu:
     op.error("Control Unit not supplied")
 
-#stdscr = curses.initscr()
-#curses.noecho()
-#curses.cbreak()
+stdscr = curses.initscr()
+curses.noecho()
+curses.cbreak()
 
 race = Race(options.cu, options.laps, options.players or [])
-race.start(options.speed, options.brakes)
-race.run()
 
-#curses.echo()
-#curses.nocbreak()
-#curses.endwin()
+try:
+    race.start(options.speed, options.brakes)
+    race.run()
+finally:
+    curses.echo()
+    curses.nocbreak()
+    curses.endwin()
 
 #cu.start()
 
