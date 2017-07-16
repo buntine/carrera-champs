@@ -67,8 +67,8 @@ class Race:
 
     def __render(self):
         self.screen.addstr(1, 1, "Hardhat Summernats Drag Racing", curses.A_STANDOUT)
-        self.screen.addstr(3, 1, "Player")
-        self.screen.addstr(3, 12, "Lap")
+        self.screen.addstr(3, 1, "PLAYER")
+        self.screen.addstr(3, 12, "LAP (OF %i)" % self.laps)
 
         for (i, p) in enumerate(self.players):
             self.screen.addstr(4 + i, 1, p.name)
