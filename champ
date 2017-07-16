@@ -24,8 +24,9 @@ class Player:
         self.laps = 0
 
 class Race:
-    def __init__(self, cu, laps, players):
+    def __init__(self, cu, laps, screen, players):
         self.laps = laps
+        self.screen = screen
         self.cu = ControlUnit(cu)
         self.players = list(map(lambda n: Player(n), players))
 
@@ -36,6 +37,7 @@ class Race:
 
         self.racing = True
         self.__start_sequence()
+        self.__render()
         
     def run(self):
         while self.racing:
@@ -57,6 +59,15 @@ class Race:
     def __finish_race(self):
         self.racing = False
         self.cu.start()
+        self.__summarize()
+
+    def __render(self):
+        self.screen.addstr(0, 0, "Racing")
+        self.screen.refresh()
+
+    def __summarize(self):
+        self.screen.addstr(0, 0, "Done")
+        self.screen.refresh()
 
 op = OptionParser()
 
@@ -85,7 +96,7 @@ stdscr = curses.initscr()
 curses.noecho()
 curses.cbreak()
 
-race = Race(options.cu, options.laps, options.players or [])
+race = Race(options.cu, options.laps, stdscr, options.players or ["Player #1", "Player #2"])
 
 try:
     race.start(options.speed, options.brakes)
@@ -94,9 +105,3 @@ finally:
     curses.echo()
     curses.nocbreak()
     curses.endwin()
-
-#cu.start()
-
-# Start looping.
-  # On Timer - add player and increment laps.
-  # If player.laps >= laps, end.
