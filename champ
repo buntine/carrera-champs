@@ -47,6 +47,8 @@ class Race:
                 player = self.players[data.address]
                 player.laps += 1
 
+                self.__render()
+
                 if player.laps > self.laps:
                     self.__finish_race()
 
@@ -62,7 +64,11 @@ class Race:
         self.__summarize()
 
     def __render(self):
-        self.screen.addstr(0, 0, "Racing")
+        self.screen.addstr(1, 1, "Hardhat Summernats Drag Racing", curses.A_STANDOUT)
+
+        for (i, p) in enumerate(self.players):
+            self.screen.addstr(3 + i, 1, "%s: %i" % (p.name, p.laps))
+
         self.screen.refresh()
 
     def __summarize(self):
