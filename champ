@@ -11,8 +11,9 @@
 ##   Usage: ./champs CU_MAC_ADDRESS LAPS PLAYERS
 ##   Example: ./champs ab:12:cd:34:ef:45 10
 
-import sys
 import curses
+
+from optparse import OptionParser
 
 #from carreralib import ControlUnit
 
@@ -33,20 +34,40 @@ class Race:
     def run(self):
         pass
 
+op = OptionParser()
+
+op.add_option("-c", "--control-unit", action="store",
+              type="string", dest="cu",
+              help="The mac address of your Carrera control unit")
+op.add_option("-l", "--laps", action="store",
+              type="int", dest="laps",
+              default=6, help="Number of laps to race for")
+op.add_option("-b", "--brakes", action="store_true",
+              default=False, dest="brakes",
+              help="Enable automatic braking")
+op.add_option("-s", "--speed", action="store",
+              type="int", dest="speed", default=8,
+              help="Top speed (1..10)")
+op.add_option("-p", "--player", dest="players",
+              type="string", action="append",
+              help="The name of a player")
+
+(options, args) = op.parse_args()
+
 #cu = ControlUnit(sys.argv[1])
 cu = 1
 
-stdscr = curses.initscr()
-curses.noecho()
-curses.cbreak()
+#stdscr = curses.initscr()
+#curses.noecho()
+#curses.cbreak()
 
-race = Race(cu, sys.argv[2], sys.argv[3:])
+race = Race(cu, options.laps, options.players or [])
 race.start()
 race.run()
 
-curses.echo()
-curses.nocbreak()
-curses.endwin()
+#curses.echo()
+#curses.nocbreak()
+#curses.endwin()
 
 #cu.start()
 
