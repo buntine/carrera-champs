@@ -22,6 +22,7 @@ class Player:
     def __init__(self, name):
         self.name = name
         self.laps = 0
+        self.best_time = 4.21
 
 class Race:
     def __init__(self, cu, laps, screen, players):
@@ -69,10 +70,12 @@ class Race:
         self.screen.addstr(1, 1, "Hardhat Summernats Drag Racing", curses.A_STANDOUT)
         self.screen.addstr(3, 1, "PLAYER")
         self.screen.addstr(3, 12, "LAP (OF %i)" % self.laps)
+        self.screen.addstr(3, 30, "BEST LAP TIME")
 
         for (i, p) in enumerate(self.players):
             self.screen.addstr(4 + i, 1, p.name)
             self.screen.addstr(4 + i, 12, str(p.laps))
+            self.screen.addstr(4 + i, 30, "{:.2f}s".format(p.best_time))
 
         self.screen.refresh()
 
